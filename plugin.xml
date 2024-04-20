@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+
+	<extension-point id="listeners" name="Extension Unicode Convert" schema="schema/listeners.exsd"/>
+	<extension-point id="hyperlinkdetectors" name="Extension Hyperlink Detector" schema="schema/hyperlinkdetectors.exsd"/>
+
+	<!-- Extensions -->
+	<!-- properties editor -->
+	<extension
+		   point="org.eclipse.ui.editors">
+		<editor
+				icon="icons/IconByTaroTw.gif"
+				class="jp.gr.java_conf.ussiy.app.propedit.eclipse.plugin.editors.PropertiesEditor"
+				default="true"
+				name="PropertiesEditor"
+				id="jp.gr.java_conf.ussiy.app.propedit.editors.PropertiesEditor"
+				contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
+				extensions="properties">
+		</editor>
+	</extension>
+
+	<!-- preference page -->
+	<extension point="org.eclipse.ui.preferencePages">
+		<page
+				name="%propertiesEditorPreferencePageName"
+				class="jp.gr.java_conf.ussiy.app.propedit.eclipse.plugin.preference.PropertiesPreference"
+				id="jp.gr.java_conf.ussiy.app.propedit.preference.PropertiesPreference"/>
+		<page
+				class="jp.gr.java_conf.ussiy.app.propedit.eclipse.plugin.preference.PropertiesEditorPreference"
+				category="jp.gr.java_conf.ussiy.app.propedit.preference.PropertiesPreference"
+				name="%editorPreferencePageName"
+				id="jp.gr.java_conf.ussiy.app.propedit.preference.PropertiesEditorPreference"/>
+		<page
+				class="jp.gr.java_conf.ussiy.app.propedit.eclipse.plugin.preference.PropertiesEditorDuplicationCheckerPreference"
+				category="jp.gr.java_conf.ussiy.app.propedit.preference.PropertiesPreference"
+				name="%checkDuplicationPreferencePageName"
+				id="jp.gr.java_conf.ussiy.app.propedit.preference.PropertiesEditorDuplicationCheckerPreference"/>
+	</extension>
+	<extension point="org.eclipse.core.runtime.preferences">
+		   <initializer class="jp.gr.java_conf.ussiy.app.propedit.eclipse.plugin.preference.PreferenceInitializer"/>
+	</extension>
+	
+	<!-- property page -->
+	<extension point="org.eclipse.ui.propertyPages">
+		<page
+				name="%propertiesEditorPreferencePageName"
+				class="jp.gr.java_conf.ussiy.app.propedit.eclipse.plugin.property.PropertiesProperty"
+				id="jp.gr.java_conf.ussiy.app.propedit.property.PropertiesProperty">
+			<enabledWhen>
+				<or>
+					<instanceof value="org.eclipse.core.resources.IProject"/>
+					<instanceof value="org.eclipse.jdt.core.IJavaProject"/>
+				</or>
+			</enabledWhen>
+		</page>
+	</extension>
+
+	<!-- popup menu & action -->
+	<extension point="org.eclipse.ui.popupMenus">
+		<viewerContribution
+				targetID="#PropertiesEditorContext"
+				id="jp.gr.java_conf.ussiy.app.propedit.contributions.PropertiesEditorContext">
+			<action
+					label="%toggleCommentActionLabel"
+					icon="icons/IconByTaroTw.gif"
+					class="jp.gr.java_conf.ussiy.app.propedit.eclipse.plugin.action.ToggleCommentAction"
+					definitionId="jp.gr.java_conf.ussiy.app.propedit.togglecomment.command"
+					menubarPath="additions"
+					id="jp.gr.java_conf.ussiy.app.propedit.pm.PropertiesEditorInsertDeleteCommentCharacterAction">
+				<selection class="org.eclipse.jface.text.ITextSelection"/>
+			</action>
+			<action
+					label="%expandAllActionLabel"
+					icon="icons/IconByTaroTw.gif"
+					class="jp.gr.java_conf.ussiy.app.propedit.eclipse.plugin.action.ExpandAllFoldingAction"
+					definitionId="jp.gr.java_conf.ussiy.app.propedit.expandall.command"
+					menubarPath="additions"
+					id="jp.gr.java_conf.ussiy.app.propedit.pm.PropertiesEditorOpenAllFoldingAction">
+			</action>
+			<action
+					label="%collapseAllActionLabel"
+					icon="icons/IconByTaroTw.gif"
+					class="jp.gr.java_conf.ussiy.app.propedit.eclipse.plugin.action.CollapseAllFoldingAction"
+					definitionId="jp.gr.java_conf.ussiy.app.propedit.collapseall.command"
+					menubarPath="additions"
+					id="jp.gr.java_conf.ussiy.app.propedit.pm.PropertiesEditorCloseAllFoldingAction">
+			</action>
+			<action
+					label="%showUnicodeEscActionLabel"
+					icon="icons/IconByTaroTw.gif"
+					class="jp.gr.java_conf.ussiy.app.propedit.eclipse.plugin.action.ShowUnicodeEscAction"
+					definitionId="jp.gr.java_conf.ussiy.app.propedit.showunicode.command"
+					menubarPath="additions"
+					id="jp.gr.java_conf.ussiy.app.propedit.pm.PropertiesEditorUnicodeEscSrcAction">
+			</action>
+		</viewerContribution>
+	</extension>
+	<extension point="org.eclipse.ui.contexts">
+		<context
+			name="%contextLabel"
+			description="%contextDescription"
+			parentId="org.eclipse.ui.textEditorScope"
+			id="jp.gr.java_conf.ussiy.app.propedit.PropertiesEditorScope">
+		</context>
+	</extension>
+	<extension point="org.eclipse.ui.commands">
+		<category
+				name="%commandCategory"
+				id="jp.gr.java_conf.ussiy.app.propedit.category"/>
+		<command
+				categoryId="jp.gr.java_conf.ussiy.app.propedit.category"
+				name="%toggleCommentCommandLabel"
+				id="jp.gr.java_conf.ussiy.app.propedit.togglecomment.command"/>
+		<command
+				categoryId="jp.gr.java_conf.ussiy.app.propedit.category"
+				name="%collapseAllCommandLabel"
+				id="jp.gr.java_conf.ussiy.app.propedit.collapseall.command"/>
+		<command
+				categoryId="jp.gr.java_conf.ussiy.app.propedit.category"
+				name="%expandAllCommandLabel"
+				id="jp.gr.java_conf.ussiy.app.propedit.expandall.command"/>
+		<command
+				categoryId="jp.gr.java_conf.ussiy.app.propedit.category"
+				name="%showUnicodeEscCommandLabel"
+				id="jp.gr.java_conf.ussiy.app.propedit.showunicode.command"/>
+	</extension>
+	<extension point="org.eclipse.ui.editorActions">
+		<editorContribution
+				targetID="jp.gr.java_conf.ussiy.app.propedit.editors.PropertiesEditor"
+				id="jp.gr.java_conf.ussiy.app.propedit.editorContribution">
+			<action
+					disabledIcon="icons/IconByTaroTw_disable.gif"
+					label="%toggleCommentActionLabel"
+					icon="icons/IconByTaroTw.gif"
+					definitionId="jp.gr.java_conf.ussiy.app.propedit.togglecomment.command"
+					class="jp.gr.java_conf.ussiy.app.propedit.eclipse.plugin.action.ToggleCommentAction"
+					menubarPath="edit/additions"
+					id="jp.gr.java_conf.ussiy.app.propedit.togglecomment.action">
+				<selection class="org.eclipse.jface.text.ITextSelection"/>
+			</action>
+			<action
+					disabledIcon="icons/IconByTaroTw_disable.gif"
+					label="%expandAllActionLabel"
+					icon="icons/IconByTaroTw.gif"
+					definitionId="jp.gr.java_conf.ussiy.app.propedit.expandall.command"
+					class="jp.gr.java_conf.ussiy.app.propedit.eclipse.plugin.action.ExpandAllFoldingAction"
+					menubarPath="edit/additions"
+					id="jp.gr.java_conf.ussiy.app.propedit.pm.PropertiesEditorOpenAllFolding.action">
+			</action>
+			<action
+					disabledIcon="icons/IconByTaroTw_disable.gif"
+					label="%collapseAllActionLabel"
+					icon="icons/IconByTaroTw.gif"
+					definitionId="jp.gr.java_conf.ussiy.app.propedit.collapseall.command"
+					class="jp.gr.java_conf.ussiy.app.propedit.eclipse.plugin.action.CollapseAllFoldingAction"
+					menubarPath="edit/additions"
+					id="jp.gr.java_conf.ussiy.app.propedit.pm.PropertiesEditorCloseAllFolding.action">
+			</action>
+			<action
+					disabledIcon="icons/IconByTaroTw_disable.gif"
+					label="%collapseAllActionLabel"
+					icon="icons/IconByTaroTw.gif"
+					definitionId="jp.gr.java_conf.ussiy.app.propedit.showunicode.command"
+					class="jp.gr.java_conf.ussiy.app.propedit.eclipse.plugin.action.ShowUnicodeEscAction"
+					menubarPath="edit/additions"
+					id="jp.gr.java_conf.ussiy.app.propedit.pm.PropertiesEditorUnicodeEscSrc.action">
+			</action>
+		</editorContribution>
+	</extension>
+
+	<!-- duplication checklistener & duplication marker -->
+	<extension point="jp.gr.java_conf.ussiy.app.propedit.listeners">
+		<listener class="jp.gr.java_conf.ussiy.app.propedit.eclipse.plugin.listener.DuplicationKeyCheckListener"/>
+	</extension>
+	<extension
+			id="duplicationmarker"
+			name="%duplicationMarkerLabel"
+			point="org.eclipse.core.resources.markers">
+		<super type="org.eclipse.core.resources.problemmarker"/>
+		<super type="org.eclipse.core.resources.textmarker"/>
+		<persistent value="true"/>
+	</extension>
+
+	<!-- key bindings -->
+	<extension
+			point="org.eclipse.ui.bindings">
+		<key
+				commandId="jp.gr.java_conf.ussiy.app.propedit.togglecomment.command"
+				contextId="jp.gr.java_conf.ussiy.app.propedit.PropertiesEditorScope"
+				schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+				sequence="Ctrl+/"/>
+		<key
+				commandId="jp.gr.java_conf.ussiy.app.propedit.showunicode.command"
+				contextId="jp.gr.java_conf.ussiy.app.propedit.PropertiesEditorScope"
+				schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+				sequence="Ctrl+I"/>
+	</extension>
+	<extension
+			id="jp.gr.java_conf.ussiy.app.propedit.propertiesCompletionProposalComputer"
+			point="org.eclipse.jdt.ui.javaCompletionProposalComputer"
+			name="%proposalName">
+		<javaCompletionProposalComputer
+				activate="true"
+				categoryId="jp.gr.java_conf.ussiy.app.propedit.eclipse.plugin.jdt.proposalCategory"
+				class="jp.gr.java_conf.ussiy.app.propedit.eclipse.plugin.jdt.proposal.PropertiesCompletionProposalComputer">
+			<partition type="__java_string"/>
+		</javaCompletionProposalComputer>
+		<proposalCategory icon="icons/pe_32.gif"/>
+	</extension>
+	<extension
+			point="org.eclipse.core.contenttype.contentTypes">
+		<content-type
+				id="jp.gr.java_conf.ussiy.app.propedit.properties.conent.type"
+				name="Properties File"
+				base-type="org.eclipse.core.runtime.text"
+				file-extensions="properties"
+				priority="high"
+				default-charset=""/>
+	</extension>
+	<extension
+			point="org.eclipse.ui.newWizards">
+		<wizard
+				id="jp.gr.java_conf.ussiy.app.propedit.newwizard"
+				name="%wizardName"
+				class="jp.gr.java_conf.ussiy.app.propedit.eclipse.plugin.wizard.BasicNewPropertiesFileWizard"
+				category="org.eclipse.jdt.ui.java"
+				icon="icons/pe_32.gif"
+				project="false"/>
+	</extension>
+	<extension
+			point="org.eclipse.jdt.ui.javaEditorTextHovers">
+		<hover
+				id="jp.gr.java_conf.ussiy.app.propedit.hover"
+				class="jp.gr.java_conf.ussiy.app.propedit.eclipse.plugin.jdt.hover.PropertiesHover"
+				label="%hoverLabel"
+				description="%hoverDescription"
+				activate="true"/>
+	</extension>
+	<extension
+			point="org.eclipse.ui.startup">
+		<startup class="jp.gr.java_conf.ussiy.app.propedit.eclipse.plugin.startup.Startup"/>
+	</extension>
+
+</plugin>
