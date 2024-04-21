@@ -1,2 +1,2 @@
 # PropertiesEditor
-Plugin for eclipse, just copy from 'http://svn.osdn.net/svnroot/propedit/'
+Plugin for eclipse, just copy from [PropertiesEditor](http://svn.osdn.net/svnroot/propedit/)
